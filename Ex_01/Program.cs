@@ -20,7 +20,7 @@ namespace Ex_01
             Console.WriteLine();
             string result = SearchName(writedStr);
             Console.WriteLine(result);
-            Console.ReadKey();
+            Console.ReadKey(); 
         }
 
         private static string SearchName(string writedStr)

@@ -1,5 +1,5 @@
-# Day 00 – .NET Boot camp
-### Procedural C#
+# Day 01 – .NET Boot camp
+### Make it classy
 
 # Contents
 1. [Chapter I](#chapter-i) \
@@ -7,10 +7,21 @@
 2. [Chapter II](#chapter-ii) \
 	[Rules of the Day](#rules-of-the-day)
 3. [Chapter III](#chapter-iii) \
-	[Exercise 00 – Life on credit](#exercise-00-life-on-credit)
+	[Intro](#intro)
 4. [Chapter IV](#chapter-iv) \
-	[Exercise 01 – Working out the bugs](#exercise-01-working-out-the-bugs)
-
+	[Exercise 00 – Storage](#exercise-00-storage)
+5. [Chapter V](#chapter-v) \
+  [Exercise 01 – Customers](#exercise-01-customers)
+6. [Chapter VI](#chapter-vi) \
+  [Exercise 02 – Shopping cart](#exercise-02-shopping-cart) 
+7. [Chapter VII](#chapter-vii) \
+  [Exercise 03 – Cash register](#exercise-03-cash-register)
+8. [Chapter VIII](#chapter-viii) \
+  [Exercise 04 – Store](#exercise-04-store)
+9. [Chapter IX](#chapter-ix) \
+  [Exercise 05 – Queues](#exercise-05-queues)
+10. [Chapter X](#chapter-x) \
+  [Exercise 06 – So how does it work?](#exercise-06-so-how-does-it-work)
 
 # Chapter I 
 
@@ -19,10 +30,11 @@
 - Remember, your code will be read! Pay special attention to the design of your code and the naming of variables. Adhere to commonly accepted [C# Coding Conventions](<https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions>).
 - Choose your own IDE that is convenient for you.
 - The program must be able to run from the dotnet command line.
-- Each of the tasks contains the input parameters and the format of the output response. You must adhere to them. 
+- Each of the exercise contains examples of input and output. The solution should use them as the correct format.
 - At the beginning of each task, there is a list of allowed language constructs.
 - If you find the problem difficult to solve, ask questions to other piscine participants, the Internet, Google or go to StackOverflow.
-- You may see the main features of C# language in [official specification](<https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/introduction>). 
+- You may see the main features of C# language in [official specification](<https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/introduction>).
+- Avoid **hard coding** and **"magic numbers"**.
 - You demonstrate the complete solution, the correct result of the program is just one of the ways to check its correct operation. Therefore, when it is necessary to obtain a certain output as a result of the work of your programs, it is forbidden to show a pre-calculated result.
 - Pay special attention to the terms highlighted in **bold** font: their study will be useful to you both in performing the current task, and in your future career of a .NET developer.
 - Have fun :)
@@ -30,220 +42,136 @@
 
 # Chapter II
 ##  Rules of the Day
-- All projects must be in the same solution.
-- Each of the tasks must correspond to a separate console application created based on a standard .NET SDK template.
+
+- Do not use any nuget packages.
+- The name of the solution and the project (and its separate catalog) is d_{xx}, where xx are the digits of the current day.
+- Use console application created based on a standard .NET SDK template.
+- Each class should be in a separate file.
 - Use **top-level-statements**  and **var**.
-- The name of the project (and its separate catalog) should look like d{xx}_ex{yy}, where xx is the digits of the current day, yy is the digits of the current task.
-- The name of the solution (and its separate catalog) is d_{xx}, where xx are the digits of the current day.
 - To format the output data, use the en-GB **culture**: N2 for the output of monetary amounts, d for dates.
-- In mathematical calculations, use rounding up to hundredths.
 
-Since in the first lesson we consider the language as a procedural one:
-- You can't use classes. Yes, the Program class too!
-- You cannot use nuget packages.
+## What's new
 
+- Classes, properties, methods
+- Class constructors
+- Lambda operators
+- Overriding methods
+- Encapsulation
+- Static classes
+- Extension methods
 
 # Chapter III
-## Exercise 00 – Life on credit
+## Intro
 
-“As my father used to say: "There are two sure ways to lose a friend, one is to borrow, the other to lend.”
+Returning from the food store, where you spent ages standing in a queue, you find yourself being fascinated by the nature of these places. Stores, actually. And their queues. Why do they appear? Whether from a small number of working cash registers, because of slow cashiers or people with a large number of goods in the cart. Why does it always seem that the other queue moves faster?
 
-**― Patrick Rothfuss, The Name of the Wind**
+This mystery of nature does not give you any peace. So, you decide, if not to understand it, then at least to model it with the help of the force that has always come to your aid in difficulties.
 
-### Allowed language constructs
+With the help of programming.
 
-- Local functions
-- Loops
-- If/else statements
-- Casting and type conversion
-- DateTime and its methods
-- System.Math and its methods
-- CultureInfo
+![the power of programming](<https://imgs.xkcd.com/comics/regular_expressions.png>)
 
+[xkcd](<https://xkcd.com/208/>)
 
-### Project structure:
-```
-d00_ex00
-  Program.cs
-
-```
-
-### The objective
-
-In order to study at School 21 and not be left without a living, you decided to take out a loan. Or, at least, you consider the option of such a development of events. Well, you think, having decided to calculate everything in advance, why not make a schedule of upcoming payments?
-
-Let it look like a table of the following type: 
-
-| Payment no. | Payment date | Payment | Principal debt | Interest | Remaining debt  |
-|---|---|---|---|---|---|
- 
-Everything will be calculated monthly. And for these calculations, it is enough that your calculator accepts at the input: The loan amount, the Annual percentage rate, the number of months of the loan.
- 
-You open the loan agreement and see the formulas that the bank uses to make calculations:
-
-**Total monthly payment**
-
-```math
-
-\frac{Loan \; ammount*i*(1+i)^n}{(1+i)^n-1}
-
-```
-
-n — number of months, when the loan is paid
-
-i — the interest rate on the loan per month.
-
-**Interest rate on the loan per month:**
-
-```math
-
-i = Annual \; percentage \; rate /12/100
-
-```
-
-**Monthly payment interest:**
-
-```math
-
-\frac{Total \; debt \; balance*Annual \; percentage \; rate * DaysOfThePeriod}{100*Days \; per \; year}
-
-```
-
-The total debt balance is the amount of the principal debt as of the settlement date.
-
-The number of days of the period is the difference in days between the "Current payment date" and the date of the previous payment.
-
-It seems complicated, but let’s figure it out. 
-
-We assume that you pay off the loan on the 1st day of each month, starting from the next. It's important to consider leap years! The **System.DateTime**  methods will help you with this and other operations with dates and times. In total, there will be as many such months as you took out the loan for (the input argument).
-
-The monthly payment (_Payment_) consists of the part going to the repayment of the principal debt (_Principal debt_), and the part going to the payment of interest on the loan (_Interest_). The formulas for calculating the Amount of the monthly payment (_Payment_) and the Interest of the monthly payment (_Interest_) are given in the loan agreement above. For mathematical calculations, use the tools of the **System.Math** library. Now, knowing them, you can calculate the _Principal Debt_.
-
-The _Remaining debt_ for each month is also easy to determine: we simply gradually subtract the monthly payment from the total loan amount. **Loops** and **increment operators** will help you here. Note that if this is the last month of the loan and the balance of the debt is non-zero, you just need to increase the monthly payment and the amount going to pay the debt in the schedule. So we’ll pay the loan off in time.
-
-The last step is to bring everything into a nice and convenient table. **Linear interpolation** and **tabs and string break characters** will help you. 
-
-Loans have never been so much fun! Have they?..
-
-### Input parameters
-
-Don't forget about [converting strings to numbers](<https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/how-to-convert-a-string-to-a-number>)!
-
-| Argument | Type | Description |
-|---|---|---|
-| sum |double | Loan amount, RUB |
-|rate | double | Annual percentage rate, % |
-|term|int|Number of months of the loan|
-
-### Output format
-
-The data should be ordered by month (in ascending order).
-
-#### The user specified incorrect data
-```
-Something went wrong. Check your input and retry.
-```
-#### Examples of launching an application from the project folder
-```
-$ dotnet run 1000000 12 10
-1       06/01/2021      105,582.08      95,390.30       10,191.78       904,609.70
-2       07/01/2021      105,582.08      96,659.90       8,922.18        807,949.81
-3       08/01/2021      105,582.08      97,347.63       8,234.45        710,602.18
-4       09/01/2021      105,582.08      98,339.77       7,242.30        612,262.40
-5       10/01/2021      105,582.08      99,543.32       6,038.75        512,719.08
-6       11/01/2021      105,582.08      100,356.56      5,225.52        412,362.52
-7       12/01/2021      105,582.08      101,514.94      4,067.14        310,847.58
-8       01/01/2022      105,582.08      102,413.99      3,168.09        208,433.60
-9       02/01/2022      105,582.08      103,457.77      2,124.31        104,975.83
-10      03/01/2022      105,942.18      104,975.83      966.35          0.00
-```
-```
-$ dotnet run 55000 10 20
-1       06/01/2021      2,996.95        2,529.82        467.12        52,470.18
-2       07/01/2021      2,996.95        2,565.68        431.26        49,904.49
-3       08/01/2021      2,996.95        2,573.10        423.85        47,331.39
-4       09/01/2021      2,996.95        2,594.95        401.99        44,736.44
-5       10/01/2021      2,996.95        2,629.25        367.70        42,107.19
-6       11/01/2021      2,996.95        2,639.32        357.62        39,467.87
-7       12/01/2021      2,996.95        2,672.55        324.39        36,795.32
-8       01/01/2022      2,996.95        2,684.44        312.51        34,110.88
-9       02/01/2022      2,996.95        2,707.24        289.71        31,403.64
-10      03/01/2022      2,996.95        2,756.04        240.90        28,647.60
-11      04/01/2022      2,996.95        2,753.64        243.31        25,893.97
-12      05/01/2022      2,996.95        2,784.12        212.83        23,109.85
-13      06/01/2022      2,996.95        2,800.67        196.28        20,309.18
-14      07/01/2022      2,996.95        2,830.02        166.92        17,479.16
-15      08/01/2022      2,996.95        2,848.49        148.45        14,630.66
-16      09/01/2022      2,996.95        2,872.69        124.26        11,757.98
-17      10/01/2022      2,996.95        2,900.30        96.64         8,857.67
-18      11/01/2022      2,996.95        2,921.72        75.23         5,935.96
-19      12/01/2022      2,996.95        2,948.16        48.79         2,987.80
-20      01/01/2023      3,013.18        2,987.80        25.38         0.00
-```
 # Chapter IV
-## Exercise 01 – Working out the bugs
+## Exercise 00 – Storage
 
-“Never interrupt your enemy when he is making a mistake.”
+Let's start with the heart of the store. Create a _Storage_ class and describe its **properties**. The main thing for us is that the storage is determined by the integer number of goods (let's agree, the same) that are stored in it.
 
-**― Napoleon Bonaparte**
+The number of goods may vary, but at the time of the creation of the storage, it is determined by its capacity - the initial value. Let the number of goods be specified in the **class constructor**. The storage cannot be created without capacity, so it should not have a **parameterless constructor**.
 
-### Allowed language constructs
+Add the _IsEmpty_ method to the class, which will return information about the goods that are out of stock. Use a [lambda operator](<https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-operator>).
 
-- Local functions
-- Loops
-- If/else statements
-- string and its methods
-- System.IO
+# Chapter V
+## Exercise 01 – Customers
 
-### Project structure:
+What about the customers? Create the _Customer_ class and describe its **properties**. Make it so that one customer can be distinguished from another: let them have a name and a serial number under which they entered the store. Since classes inherit from **the Object type** and get access to its methods, [override the ToString()](<https://docs.microsoft.com/en-us/dotnet/api/system.object.tostring?view=net-5.0>) method so that it returns string information with the customer’s number and name.
 ```
-d00_ex01
-  Program.cs
+Andrew, customer #1
 ```
 
-### The objective
+The number and name are not changing. Make these **auto-properties** locked for editing from the outside and set only from the class constructor. The customer cannot be created without them, so it should not have a **parameterless constructor**.
 
-Credit or no credit, let's imagine that you found a good job with a schedule that will allow you to study comfortably at School 21, and even sharpen the skills you learned at school. And here in a new place the first task comes to you: «Implement auto-correction of the user name».
-
-The fact is that users are not always attentive to filling out forms and make typos. But there is a dictionary that contains a list of all the names, by which you can check the correctness of the spelling, and in response to an error in the user name it can offer a correction. This is what you need to implement.
-
-You have a file with a list of all English-language names attached to the lesson. You need to read a list of names for verification from it. Don't copy the text to code! There are more convenient ways, look towards **File.IO**. 
-
-Here we assume the dictionary is complete and contains all possible options (if the user selects nothing or the name is not found, an error is displayed).
-
-You decide to use [Levenshtein distance](<https://en.wikipedia.org/wiki/Levenshtein_distance>) to compare words. We consider the name related to the entered one if the editing distance to it is less than 2. Choose for yourself whether to use loops or recursion. The easiest way to perform operations with strings, such as clearing them from extra spaces, is to use methods of the **string** type.
-
-So, you need to implement a console application that asks for a username:
-
+Try creating two customers with the same names and numbers:
 ```
->Enter name:
+var customer1 = new Customer("Andrew", 1);
+var customer2 = new Customer("Andrew", 1);
 ```
 
-### Output format
+Output the value of the expression _customer1 == customer2_ to the console. Why is the answer like this? 
 
-Next, the user must enter their name (it can contain only letters, spaces and hyphens), to which the program reacts in the following way.
+Change the _Customer_ class so that output to the console is true.
 
-| Case | Expected output |
-|---|---|
-| Name was found in the dictionary |Hello, {name}! |
-| A close name was found in the dictionary (the editing distance to which is no more than 1) |>Did you mean “{corrected name}”? Y/N |
-| Y |Hello, {corrected name}! |
-| N |>Did you mean “{new correction option}”? Y/N <br/> or <br/> Your name was not found. |
-| No related name was found |Your name was not found. |
-| Name not entered  |Your name was not found. |
+# Chapter VI
+## Exercise 02 – Shopping cart
 
-#### The user specified incorrect data
+Take the _Customer_ class from the previous exercise, let's add it a property that reflects the number of goods in its cart. When a customer is created (in the real world when they appear in the store), they have zero goods.
+
+To prevent users of your classes from changing the value as they like, make the field with the number of goods not changeable from the outside. 
+
+Instead, add the _FillCart_ cart filling method to the customer: let the method take the maximum cart capacity (input argument) and fill the customer's number of goods with a random number (minimum 1, maximum cart capacity).
+
+This is how we implemented the logic of filling the cart in one place and closed it with a convenient method with a readable and understandable name. Welcome to **encapsulation**.
+
+Create 3 users, fill their carts with a capacity of 15 items. Output information about the user and the number of goods in their cart to the console.
+
+Example:
 ```
-Something went wrong. Check your input and retry.
+Andrew, customer #1 (5 items in cart)
 ```
 
-#### Examples of launching an application from the project folder
+# Chapter VII
+## Exercise 03 – Cash register
 
+Create the _CashRegister_ class and describe its properties. Let the cash register have a "name” - some kind of a title that will allow customers to clearly understand which cash register they are talking about. **Override the methods** of the class so that ToString() returns the title and two cash registers with the same heading are equal.
 ```
-$ dotnet run
->Enter name:
-Mrk
->Did you mean “Mark”? Y/N
-Y
->Hello, Mark!
+Register #1
 ```
+
+The cash register should not have a parameterless constructor. 
+There should also be no queues at the checkout. But we live in the real world and we want to build a model for the real world, so let's implement queues. 
+
+Add the _Customers_ collection to the _CashRegister_ class so that it is a [«first - come, first - served»](<https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1?view=net-5.0>) type of a queue. 
+
+Think about whether it is necessary to encapsulate this property?
+
+# Chapter VIII
+## Exercise 04 – Store
+
+Create the _Store_ class and describe its properties. The store should have a storage and a set of cash registers. 
+
+Implement the class constructor so that it accepts an integer storage capacity and an integer number of cash registers at the input. Fill in the class properties in the constructor using these inputs. Let each cash register be created with a title corresponding to its serial number.
+
+Think about whether it makes sense to lock the **setter** of a cash registers collection from editing?
+
+Add the _IsOpen_ method, that returns true, if there are still goods in the storage.
+
+# Chapter IX
+## Exercise 05 – Queues 
+
+How do you stand in a queue? To the checkout with the least number of customers or to the checkout with the least number of purchases? Let’s implement both situations.
+
+Create a **static** _CustomerExtensions_ class with two **extension methods** for the _Customer_ object: both methods will accept a collection of cash registers (_CashRegister_ objects) and return the register that the customer chooses. The first method is the cash register with the least number of customers, the second one with the least number of goods among all customers in the queue of this cash register.
+
+Don't forget to name the methods so that it is clear what exactly they do. Now you have a separate class responsible for queue picking (we separated the responsibility) and a nice clean way to call these methods in code. Try them.
+
+# Chapter X
+## Exercise 06 – So how does it work?
+
+Create a store with 3 cash registers and a storage with 40 goods in it. Create 10 different customers. Implement a cycle: let each of the customers fill the cart and stand in queue. The cycle should work while the store is open (you have a method to check it) and there are customers in it. 
+
+Keep in mind that filling the customer's cart with goods should remove them from the storage. Implement it yourself. Customers leave a queue after they get their items from storage.  Customers can’t have more than items left in the storage (storage cannot have less than 0 items). If storage is empty and customer’s cart still has some items to buy output to the console:
+```
+Andrew, Customer #4 (2 items left in cart)
+```
+
+Do this for two different cases of queue selection (exercise 05) and in each case, output the user's name and number, the number of goods, the chosen checkout and the number of people at the checkout, the number of goods in the queue carts to the console in a loop.
+```
+Andrew, Customer #4 (6 items in cart) - Register #1 (4 people with 20 items behind)
+```
+
+The capacity of the cart is 7 items.
+
+![How does it really work](<https://imgs.xkcd.com/comics/efficiency.png>)
+
+[xkcd](<https://xkcd.com/1445/>)

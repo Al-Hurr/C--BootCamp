@@ -20,14 +20,14 @@ namespace Ex_01
             Console.WriteLine();
             string result = SearchName(writedStr);
             Console.WriteLine(result);
-            Console.ReadKey(); 
+            Console.ReadKey();
         }
 
         private static string SearchName(string writedStr)
         {
             foreach (string name in _names)
             {
-                int result = LevenshteinDistance.GetLevenshteinDistance(writedStr, name);
+                int result = GetLevenshteinDistance(writedStr, name);
                 if (result == 0)
                 {
                     return $"Привет, {writedStr}";
@@ -76,16 +76,14 @@ namespace Ex_01
 
             return true;
         }
-    }
 
-    public class LevenshteinDistance
-    {
         public static int GetLevenshteinDistance(string writedStr, string strFromStore)
         {
             if (string.IsNullOrEmpty(writedStr) || string.IsNullOrWhiteSpace(writedStr))
             {
                 return -1;
             }
+
             if (writedStr == strFromStore)
             {
                 return 0;
@@ -95,14 +93,17 @@ namespace Ex_01
             int l2 = strFromStore.Length;
             int track, t;
             int[,] dist = new int[l2 + 1, l1 + 1];
+
             for (int i = 0; i <= l1; i++)
             {
                 dist[0, i] = i;
             }
+
             for (int i = 0; i <= l2; i++)
             {
                 dist[i, 0] = i;
             }
+
             for (int j = 1; j <= l1; j++)
             {
                 for (int i = 1; i <= l2; i++)
@@ -120,6 +121,7 @@ namespace Ex_01
                     dist[i, j] = t < dist[i - 1, j - 1] + track ? t : dist[i - 1, j - 1] + track;
                 }
             }
+
             return dist[l2, l1];
         }
     }

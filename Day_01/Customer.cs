@@ -22,7 +22,7 @@ namespace Day_01
             Number = number;
         }
 
-        public void FillCart(int cartCapacity) => CartItemsCount = cartCapacity > 1 ? _rnd.Next(1, cartCapacity) : _rnd.Next(1, 10);
+        public void FillCart(int cartCapacity) => CartItemsCount = cartCapacity > 1 ? _rnd.Next(1, cartCapacity + 1) : _rnd.Next(1, 10);
 
         public void TakeItemsFromCart(int itemsCount) => CartItemsCount -= itemsCount;
 

@@ -8,12 +8,16 @@ namespace Day_01
     {
         public static CashRegister GetCashRegisterWithLeastCustomersNumber(this Customer customer, List<CashRegister> cashRegisters)
         {
-            return cashRegisters.OrderBy(x => x.Customers.Count).FirstOrDefault();
+            var reg = cashRegisters.OrderBy(x => x.Customers.Count).FirstOrDefault();
+            reg.Customers.Enqueue(customer);
+            return reg;
         }
 
         public static CashRegister GetCashRegisterWithLeastGoodsAmongCustomers(this Customer customer, List<CashRegister> cashRegisters)
         {
-            return cashRegisters.OrderBy(x => x.Customers.Sum(x => x.CartItemsCount)).FirstOrDefault();
+            var reg = cashRegisters.OrderBy(x => x.Customers.Sum(x => x.CartItemsCount)).FirstOrDefault();
+            reg.Customers.Enqueue(customer);
+            return reg;
         }
     }
 }
